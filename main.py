@@ -219,7 +219,6 @@ def main():
         height = screen.get_height
         width = screen.get_width
         while 1:
-            broken = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
