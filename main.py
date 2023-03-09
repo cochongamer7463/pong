@@ -77,8 +77,6 @@ class Ball(pygame.sprite.Sprite):
             self.rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
             self.speed = [-self.speed[0], 0]
 
-
-# noinspection PyTypeChecker
 def main():
     global SCREEN_HEIGHT
     global SCREEN_WIDTH
