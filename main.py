@@ -179,7 +179,6 @@ def main():
                         text_rect = text.get_rect(center=win.get_rect().center)
                         win.blit(text, text_rect)
                         ball1.rect.centerx = width() / ball_pos_ratio_x
-
                         raquette2.rect.right = width() - 10
                         pygame.display.flip()
                     else:
