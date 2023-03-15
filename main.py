@@ -173,15 +173,20 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F11:
                     if FULLSCREEN:
+                        ball_pos_ratio_x = width() / ball1.rect.centerx
                         pygame.display.set_mode((DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), pygame.RESIZABLE)
                         FULLSCREEN = False
                         text_rect = text.get_rect(center=win.get_rect().center)
                         win.blit(text, text_rect)
+                        ball1.rect.centerx = width() / ball_pos_ratio_x
+
                         raquette2.rect.right = width() - 10
                         pygame.display.flip()
                     else:
+                        ball_pos_ratio_x = width() / ball1.rect.centerx
                         pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                         FULLSCREEN = True
+                        ball1.rect.centerx = width() / ball_pos_ratio_x
                         text_rect = text.get_rect(center=win.get_rect().center)
                         win.blit(text, text_rect)
                         raquette2.rect.right = width() - 10
