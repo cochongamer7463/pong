@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import math
 from time import time
+from sys import exit
 
 DEFAULT_SCREEN_WIDTH = 1080
 DEFAULT_SCREEN_HEIGHT = 750
@@ -10,6 +11,7 @@ RAQUETTE_SPEED = 6
 BALL_SPEED_START = 4
 ACCELERATION_BALL_SPEED = 1
 FULLSCREEN = True
+POINT_TO_WIN = 50
 
 # do ont change these value
 
@@ -53,7 +55,7 @@ class Ball(pygame.sprite.Sprite):
 
     def collide(self, *args: Rect, player1, player2):
         for arg in args:
-            if self.rect.colliderect(arg):
+            if self.rect.inflate(self.speed_x*2, 0).colliderect(arg):
                 if self.rect.top >= arg.bottom or self.rect.bottom <= arg.top:
                     self.speed[1] = -self.speed[1]
                 else:
@@ -76,6 +78,7 @@ class Ball(pygame.sprite.Sprite):
             player1.score += 1
             self.rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
             self.speed = [-self.speed[0], 0]
+
 
 def main():
     global SCREEN_HEIGHT
@@ -205,41 +208,41 @@ def main():
             break
         clock.tick(60)
 
-    if player1.score >= 50:
+    if player1.score >= POINT_TO_WIN:
         text_win = font.render("Le joueur de gauche à gagnée", True, (255, 255, 255))
-    if player2.score >= 50:
-        text_win = font.render("Le joueur de gauche à gagnée", True, (255, 255, 255))
+    if player2.score >= POINT_TO_WIN:
+        text_win = font.render("Le joueur de droite à gagnée", True, (255, 255, 255))
     while 1:
+        win.fill((1,1,1))
         text_win_rect = text.get_rect(center=win.get_rect().center)
         win.blit(text_win, text_win_rect)
         pygame.display.flip()
         screen = pygame.display.get_surface()
         height = screen.get_height
         width = screen.get_width
-        while 1:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_F11:
-                        if FULLSCREEN:
-                            pygame.display.set_mode((width(), height()), pygame.RESIZABLE)
-                            FULLSCREEN = False
-                            text_rect = text.get_rect(center=win.get_rect().center)
-                            win.blit(text, text_rect)
-                            pygame.display.flip()
-                        else:
-                            pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-                            FULLSCREEN = True
-                        SCREEN_HEIGHT = height()
-                        SCREEN_WIDTH = width()
-                if event.type == pygame.VIDEORESIZE:
-                    SCREEN_WIDTH = width()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    if FULLSCREEN:
+                        pygame.display.set_mode((width(), height()), pygame.RESIZABLE)
+                        FULLSCREEN = False
+                        text_rect = text.get_rect(center=win.get_rect().center)
+                        win.blit(text, text_rect)
+                        pygame.display.flip()
+                    else:
+                        pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                        FULLSCREEN = True
                     SCREEN_HEIGHT = height()
-                    text_rect = text.get_rect(center=win.get_rect().center)
-                    win.blit(text, text_rect)
-                    pygame.display.flip()
+                    SCREEN_WIDTH = width()
+            if event.type == pygame.VIDEORESIZE:
+                SCREEN_WIDTH = width()
+                SCREEN_HEIGHT = height()
+                text_rect = text.get_rect(center=win.get_rect().center)
+                win.blit(text, text_rect)
+                pygame.display.flip()
 
 
 if __name__ == '__main__':
